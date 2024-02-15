@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styles from './Movies.module.css';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -8,6 +8,7 @@ export const Movies = () => {
   const [api_key] = useState('6ec0ba8fa041ffdfd513a6b00a854a64');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   const fetchSearchResults = useCallback(async (newQuery) => {
     const apiUrlSearch = `https://api.themoviedb.org/3/search/movie?query=${newQuery}&api_key=${api_key}`;
@@ -39,10 +40,11 @@ export const Movies = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Check if searchQuery is not empty before triggering the search
     if (searchQuery.trim() !== '') {
       try {
         await fetchSearchResults(searchQuery);
+        // Use navigate to change the URL
+        navigate(`/movies?query=${searchQuery}`);
       } catch (error) {
         console.error('Error during search:', error);
       }

@@ -11,10 +11,22 @@ export const Reviews = () => {
     const fetchReviews = async () => {
       try {
         const response = await fetch(apiUrl);
+        
+        if (!response.ok) {
+          throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
         const json = await response.json();
-        setReviews(json.results);
+
+        if (json.results) {
+          setReviews(json.results);
+        } else {
+          console.error('Unexpected response structure:', json);
+          setReviews([]);
+        }
       } catch (error) {
         console.error('Error fetching reviews:', error);
+        setReviews([]);
       }
     };
 

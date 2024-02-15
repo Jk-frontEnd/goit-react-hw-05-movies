@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link, Routes, Route, Outlet } from 'react-router-dom';
 import styles from './MovieDetails.module.css';
 import { Cast } from '../../components/Cast/Cast';
-import { Reviews } from 'pages/Reviews/Reviews';
+import { Reviews } from '../Reviews/Reviews'; 
 
 export const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState(null);
@@ -12,12 +12,10 @@ export const MovieDetails = () => {
 
   useEffect(() => {
     const fetchMovieDetails = async () => {
-      
       try {
         const response = await fetch(apiUrl);
         const data = await response.json();
         setMovieDetails(data);
-        console.log(data);
       } catch (error) {
         console.error('Error fetching movie details:', error);
       }
@@ -25,8 +23,6 @@ export const MovieDetails = () => {
 
     fetchMovieDetails();
   }, [apiUrl]);
-
-
 
   const date = movieDetails ? movieDetails.release_date.slice(0, 4) : '';
 
@@ -65,14 +61,14 @@ export const MovieDetails = () => {
           </div>
         </div>
       )}
-      <div className="linkBox">
-        <Link to={`/movies/${movieId}/cast`}>Cast</Link>
-        <Link to={`/movies/${movieId}/reviews`}>Reviews</Link>
+      <div className={styles.linkBox}>
+        <Link className={styles.link} to={`/movies/${movieId}/cast`}>Cast</Link>
+        <Link className={styles.link} to={`/movies/${movieId}/reviews`}>Reviews</Link>
       </div>
       <Outlet />
       <Routes>
-        <Route path="/cast" element={<Cast movieId={movieId}/>} />
-        <Route path="/reviews" element={<Reviews />} />
+        <Route path="cast" element={<Cast movieId={movieId} />} />
+        <Route path="reviews" element={<Reviews />} />
       </Routes>
     </div>
   );

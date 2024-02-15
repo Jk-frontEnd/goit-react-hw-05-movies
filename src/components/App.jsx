@@ -24,7 +24,7 @@ export const App = () => {
     }
   }, [apiUrlTrend]);
 
-
+  console.log(movies);
   useEffect(() => {
     getTrendMovie();
   }, [getTrendMovie]);
@@ -40,7 +40,7 @@ export const App = () => {
             path="/movies"
             element={<Movies />}
           />
-            <Route path="/movies/:movieId" element={<MovieDetails />}>
+            <Route path="/movies/:movieId/*" element={<MovieDetails />}>
             <Route index element={<MovieDetails />} />
             <Route path="cast" element={<Cast />} />
             <Route path="reviews" element={<Reviews />} />
