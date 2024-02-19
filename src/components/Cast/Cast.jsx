@@ -12,7 +12,6 @@ export const Cast = ({ movieId }) => {
             try {
                 const response = await fetch(apiUrl);
                 const data = await response.json();
-                console.log('Fetched cast data:', data);
 
                 if (data.cast) {
                     setCast(data.cast);
@@ -29,8 +28,6 @@ export const Cast = ({ movieId }) => {
     const loadMoreActors = () => {
         setVisibleActors(prevVisibleActors => prevVisibleActors + 8);
     };
-
-    console.log('Render cast component. Cast:', cast);
 
     return (
         <div className={styles.cast}>

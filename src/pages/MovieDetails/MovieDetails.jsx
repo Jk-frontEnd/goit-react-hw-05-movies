@@ -1,28 +1,30 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, Routes, Route, Outlet } from 'react-router-dom';
+import { useParams, Link, Routes, Route, Outlet, useLocation } from 'react-router-dom';
 import styles from './MovieDetails.module.css';
 import { Cast } from '../../components/Cast/Cast';
-import { Reviews } from '../Reviews/Reviews'; 
+import { Reviews } from '../Reviews/Reviews';
+import { fetchMovieDetails } from '../../components/fetch/fetchMovieDetail';  
+
 
 export const MovieDetails = () => {
+  const location = useLocation();
   const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams();
-  const apiKey = '6ec0ba8fa041ffdfd513a6b00a854a64';
-  const apiUrl = `https://api.themoviedb.org/3/movie/${movieId}?api_key=${apiKey}`;
+
+  console.log(location);
 
   useEffect(() => {
-    const fetchMovieDetails = async () => {
+    const fetchDetails = async () => {
       try {
-        const response = await fetch(apiUrl);
-        const data = await response.json();
+        const data = await fetchMovieDetails(movieId);
         setMovieDetails(data);
       } catch (error) {
         console.error('Error fetching movie details:', error);
       }
     };
 
-    fetchMovieDetails();
-  }, [apiUrl]);
+    fetchDetails();
+  }, [movieId]);
 
   const date = movieDetails ? movieDetails.release_date.slice(0, 4) : '';
 
@@ -65,8 +67,11 @@ export const MovieDetails = () => {
         <Link className={styles.link} to={`/movies/${movieId}/cast`}>Cast</Link>
         <Link className={styles.link} to={`/movies/${movieId}/reviews`}>Reviews</Link>
       </div>
-      <Outlet />
       <Routes>
+        <Route
+          path="/"
+          element={<Outlet />}
+        />
         <Route path="cast" element={<Cast movieId={movieId} />} />
         <Route path="reviews" element={<Reviews />} />
       </Routes>

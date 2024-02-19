@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from 'react';
 import styles from './Movies.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -9,6 +9,9 @@ export const Movies = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  const location = useLocation();
+  console.log(location);
 
   const fetchSearchResults = useCallback(async (newQuery) => {
     const apiUrlSearch = `https://api.themoviedb.org/3/search/movie?query=${newQuery}&api_key=${api_key}`;
@@ -43,7 +46,6 @@ export const Movies = () => {
     if (searchQuery.trim() !== '') {
       try {
         await fetchSearchResults(searchQuery);
-        // Use navigate to change the URL
         navigate(`/movies?query=${searchQuery}`);
       } catch (error) {
         console.error('Error during search:', error);

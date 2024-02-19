@@ -37,6 +37,7 @@
     display: flex;
     gap: 32px;
     justify-content: center;
+    border-bottom: rgba(0, 0, 0, 0.1) 1px solid;
 }
 
 .backLink {
