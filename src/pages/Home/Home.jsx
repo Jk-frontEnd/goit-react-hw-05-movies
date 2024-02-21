@@ -35,7 +35,9 @@ export const Home = () => {
                     {movies.map((movie) => (
                         <li className={styles.item} key={movie.id}>
                             {movie.title && (
-                                <Link className={styles.link} to={`/movies/${movie.id}`}>{movie.title}</Link>
+                                <Link className={styles.link} to={{ pathname: `/movies/${movie.id}`, state: { from: 'home' } }}>
+                                    {movie.title}
+                                </Link>
                             )}
                         </li>
                     ))}

@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link, Routes, Route, Outlet, useLocation } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate, Route, Routes, Outlet } from 'react-router-dom';
 import styles from './MovieDetails.module.css';
 import { Cast } from '../../components/Cast/Cast';
 import { Reviews } from '../Reviews/Reviews';
-import { fetchMovieDetails } from '../../components/fetch/fetchMovieDetail';  
-
+import { fetchMovieDetails } from '../../components/fetch/fetchMovieDetail';
 
 export const MovieDetails = () => {
-  const location = useLocation();
   const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams();
-
-  console.log(location);
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -30,9 +28,14 @@ export const MovieDetails = () => {
 
   return (
     <div className={styles.container}>
-      <Link to='/' className={styles.backLink}>
-        Back to Movies
+      <Link
+        to={location.state?.from === '/' ? '/' : '/movies'}
+        className={styles.backLink}
+        onClick={() => navigate(-1)}
+      >
+        Go back
       </Link>
+
       {movieDetails && (
         <div className={styles.mainDiv}>
           <div className={styles.posterPlaceholder}>

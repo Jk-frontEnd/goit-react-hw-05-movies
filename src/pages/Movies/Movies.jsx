@@ -45,6 +45,8 @@ export const Movies = () => {
     e.preventDefault();
     if (searchQuery.trim() !== '') {
       try {
+        localStorage.setItem('searchQuery', searchQuery);
+
         await fetchSearchResults(searchQuery);
         navigate(`/movies?query=${searchQuery}`);
       } catch (error) {
