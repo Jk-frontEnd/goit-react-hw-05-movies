@@ -6,6 +6,7 @@ import { Movies } from 'pages/Movies/Movies';
 import { MovieDetails } from 'pages/MovieDetails/MovieDetails';
 import { NotFound } from 'pages/NotFound/NotFound';
 
+
 export const App = () => {
   return (
     <div>
