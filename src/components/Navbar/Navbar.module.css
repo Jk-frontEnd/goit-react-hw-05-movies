@@ -7,7 +7,7 @@
 }
 
 .link {
-    color: inherit;
+    color: black;
     text-decoration: none;
     font-weight: 500;
     font-size: 24px;
@@ -15,26 +15,12 @@
     position: relative;
 }
 
-.link::after {
-    content: '';
-    display: block;
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background-color: #ff0054;
-    transition: width 350ms ease-in-out;
-}
-
 .link:hover,
-.link:focus,
-.activeLink {
+.link:focus {
     color: #ff0054;
 }
 
-.link:hover::after,
-.link:focus::after,
-.activeLink::after {
-    width: 100%;
+.link.active {
+    text-decoration: underline #ff0054;
+    color: #ff0054;
 }

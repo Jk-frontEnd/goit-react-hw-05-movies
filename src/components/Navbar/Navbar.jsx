@@ -1,13 +1,20 @@
 import { NavLink } from "react-router-dom";
-import styles from './Navbar.module.css'
+import styles from './Navbar.module.css';
 
 export const Navbar = () => {
+
+    const navLinkStyles = ({ isActive }) => {
+        return {
+            color: isActive ? '#ff0054' : 'inherit',  
+        }
+    }
+    
     return (
         <nav className={styles.NavbarBox}>
-            <NavLink to="/" className={styles.link}>
+            <NavLink to="/" style={navLinkStyles} className={styles.link} >
                 Home
             </NavLink>
-            <NavLink to="/movies" className={styles.link}>
+            <NavLink to="/movies" style={navLinkStyles} className={styles.link} >
                 Movies
             </NavLink>
         </nav>
