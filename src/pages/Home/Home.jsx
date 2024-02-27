@@ -2,7 +2,7 @@ import styles from './Home.module.css';
 import { useEffect, useState, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 
-export const Home = () => {
+const Home = () => {
     const [movies, setMovies] = useState([]);
     const apiKey = '6ec0ba8fa041ffdfd513a6b00a854a64';
     const apiUrlTrend = `https://api.themoviedb.org/3/trending/all/day?api_key=${apiKey}`;
@@ -46,3 +46,5 @@ export const Home = () => {
         </div>
     );
 };
+
+export default Home;

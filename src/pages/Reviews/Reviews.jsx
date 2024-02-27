@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import styles from './Reviews.module.css'; 
 
-export const Reviews = () => {
+const Reviews = () => {
   const [reviews, setReviews] = useState([]);
   const [visibleReviews, setVisibleReviews] = useState(4);
   const { movieId } = useParams();
@@ -63,3 +63,5 @@ export const Reviews = () => {
     </div>
   );
 };
+
+export default Reviews;

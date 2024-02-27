@@ -2,7 +2,7 @@ import React, { useState, useCallback } from 'react';
 import styles from './Movies.module.css';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 
-export const Movies = () => {
+const Movies = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [fittingMovies, setMovies] = useState([]);
   const [api_key] = useState('6ec0ba8fa041ffdfd513a6b00a854a64');
@@ -86,3 +86,5 @@ export const Movies = () => {
     </div>
   );
 };
+
+export default Movies;

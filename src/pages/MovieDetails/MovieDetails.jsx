@@ -6,7 +6,7 @@ import { fetchMovieDetails } from '../../components/fetch/fetchMovieDetail';
 const Cast = lazy(() => import('../../components/Cast/Cast'));
 const Reviews = lazy(() => import('../Reviews/Reviews'));
 
-export const MovieDetails = () => {
+const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams();
   const location = useLocation();
@@ -84,3 +84,5 @@ export const MovieDetails = () => {
     </div>
   );
 };
+
+export default MovieDetails;

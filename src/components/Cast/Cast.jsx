@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from './Cast.module.css';
 
-export const Cast = ({ movieId }) => {
+const Cast = ({ movieId }) => {
     const [cast, setCast] = useState([]);
     const [visibleActors, setVisibleActors] = useState(8);
     const apiKey = '6ec0ba8fa041ffdfd513a6b00a854a64';
@@ -61,3 +61,5 @@ export const Cast = ({ movieId }) => {
         </div>
     );
 };
+
+export default Cast;
