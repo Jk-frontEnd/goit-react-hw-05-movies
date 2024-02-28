@@ -31,7 +31,8 @@ const Cast = ({ movieId }) => {
 
     return (
         <div className={styles.cast}>
-                <>
+            <>
+                {cast.length > 0 ? (
                     <ul className={styles.castList}>
                         {cast.slice(0, visibleActors).map((castMember) => (
                             <li className={styles.castCard} key={castMember.id}>
@@ -54,9 +55,12 @@ const Cast = ({ movieId }) => {
                             </li>
                         ))}
                     </ul>
-                    {cast.length > visibleActors && (
-                        <button onClick={loadMoreActors} className={styles.btn}>Load More</button>
-                    )}
+                ) : (
+                        <p>No actors asigned to this movie.</p>
+                )}
+                {cast.length > visibleActors  && (
+                    <button onClick={loadMoreActors} className={styles.btn}>Load More</button>
+                )}
                 </>
         </div>
     );

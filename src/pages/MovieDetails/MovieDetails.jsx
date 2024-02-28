@@ -1,16 +1,17 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { useParams, Link, useLocation, useNavigate, Route, Routes, Outlet } from 'react-router-dom';
+import { useParams, Link, useLocation, Route, Routes, Outlet } from 'react-router-dom';
 import styles from './MovieDetails.module.css';
 import { fetchMovieDetails } from '../../components/fetch/fetchMovieDetail';
 
 const Cast = lazy(() => import('../../components/Cast/Cast'));
-const Reviews = lazy(() => import('../Reviews/Reviews'));
+const Reviews = lazy(() => import('../../components/Reviews/Reviews'));
+const BackLink = lazy(() => import('../../components/BackLink/BackLink'));
 
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams();
   const location = useLocation();
-  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -29,14 +30,11 @@ const MovieDetails = () => {
 
   return (
     <div className={styles.container}>
-      <Link
-        to={location.state?.from === '/' ? '/' : '/movies'}
-        className={styles.backLink}
-        onClick={() => navigate(-1)}
-      >
-        Go back
-      </Link>
-
+      <Suspense fallback={<div>Loading...</div>}>
+        <BackLink to={location.state?.from ?? '/'}>
+          Go back
+        </BackLink>
+      </Suspense>
       {movieDetails && (
         <div className={styles.mainDiv}>
           <div className={styles.posterPlaceholder}>
@@ -68,15 +66,16 @@ const MovieDetails = () => {
         </div>
       )}
       <div className={styles.linkBox}>
-        <Link className={styles.link} to={`/movies/${movieId}/cast`}>Cast</Link>
-        <Link className={styles.link} to={`/movies/${movieId}/reviews`}>Reviews</Link>
+        <Link className={styles.link} to={`/movies/${movieId}/cast`}>
+          Cast
+        </Link>
+        <Link className={styles.link} to={`/movies/${movieId}/reviews`}>
+          Reviews
+        </Link>
       </div>
       <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          <Route
-            path="/"
-            element={<Outlet />}
-          />
+          <Route path="/" element={<Outlet />} />
           <Route path="cast" element={<Cast movieId={movieId} />} />
           <Route path="reviews" element={<Reviews />} />
         </Routes>
