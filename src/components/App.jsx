@@ -11,7 +11,6 @@ const App = () => {
   return (
     <div>
       <SharedLayout>
-        <div>
           <Suspense fallback={<div>Loading...</div>}>
             <Routes>
               <Route path="/" element={<Home />} />
@@ -20,7 +19,6 @@ const App = () => {
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
-        </div>
       </SharedLayout>
     </div>
   );

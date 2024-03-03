@@ -1,5 +1,5 @@
 import React, { useState, useEffect, lazy, Suspense } from 'react';
-import { useParams, Link, useLocation, Route, Routes, Outlet } from 'react-router-dom';
+import { useParams, Link, useLocation, useNavigate, Route, Routes, Outlet } from 'react-router-dom';
 import styles from './MovieDetails.module.css';
 import { fetchMovieDetails } from '../../components/fetch/fetchMovieDetail';
 
@@ -10,8 +10,9 @@ const BackLink = lazy(() => import('../../components/BackLink/BackLink'));
 const MovieDetails = () => {
   const [movieDetails, setMovieDetails] = useState(null);
   const { movieId } = useParams();
-  const location = useLocation();
 
+  const location = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -26,12 +27,19 @@ const MovieDetails = () => {
     fetchDetails();
   }, [movieId]);
 
-  const date = movieDetails ? movieDetails.release_date.slice(0, 4) : '';
+  console.log(location)
+  useEffect(() => {
+    if (location.state) {
+      navigate(location.state.previousUrl);
+    }
+  }, [location.state, navigate]);
+
+  const date = movieDetails ? movieDetails.release_date?.slice(0, 4) : '';
 
   return (
     <div className={styles.container}>
       <Suspense fallback={<div>Loading...</div>}>
-        <BackLink to={location.state?.from ?? '/'}>
+        <BackLink to={location.state?.previousUrl || '/'}>
           Go back
         </BackLink>
       </Suspense>
@@ -55,12 +63,14 @@ const MovieDetails = () => {
             <h2>Overview</h2>
             <p>{movieDetails.overview}</p>
             <h2>Genres</h2>
-            {movieDetails.genres && (
+            {movieDetails.genres && movieDetails.genres.length > 0 ? (
               <ul>
                 {movieDetails.genres.map((genre) => (
                   <li key={genre.id}>{genre.name}</li>
                 ))}
               </ul>
+            ) : (
+              <p>Oops! <br /> No genres assigned for this movie.</p>
             )}
           </div>
         </div>

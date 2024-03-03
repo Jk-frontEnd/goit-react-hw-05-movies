@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import styles from './Movies.module.css';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const Movies = () => {
   const [searchQuery, setSearchQuery] = useState(sessionStorage.getItem('searchQuery') || '');
@@ -8,33 +8,50 @@ const Movies = () => {
   const [api_key] = useState('6ec0ba8fa041ffdfd513a6b00a854a64');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   
-  const fetchSearchResults = useCallback(async (newQuery) => {
-    const apiUrlSearch = `https://api.themoviedb.org/3/search/movie?query=${newQuery}&api_key=${api_key}`;
+const saveFittingMovies = useCallback(() => {
+  sessionStorage.setItem('searchQuery', searchQuery);
+  sessionStorage.setItem('foundMovies', JSON.stringify(fittingMovies));
+}, [searchQuery, fittingMovies]);
 
-    try {
-      setLoading(true);
-      const response = await fetch(apiUrlSearch);
-      const json = await response.json();
+const fetchSearchResults = useCallback(async (newQuery) => {
+  const apiUrlSearch = `https://api.themoviedb.org/3/search/movie?query=${newQuery}&api_key=${api_key}`;
 
-      if (response.ok) {
-        setMovies(json.results);
-        setError(null);
-      } else {
-        setError('Failed to fetch search results');
-        setMovies([]);
-      }
-    } catch (error) {
-      console.error('Error fetching search results:', error);
+  try {
+    setLoading(true);
+    const response = await fetch(apiUrlSearch);
+    const json = await response.json();
+
+    if (response.ok) {
+      setMovies(json.results);
+      setError(null);
+    } else {
       setError('Failed to fetch search results');
       setMovies([]);
-    } finally {
-      setLoading(false);
     }
-  }, [api_key]);
+  } catch (error) {
+    console.error('Error fetching search results:', error);
+    setError('Failed to fetch search results');
+    setMovies([]);
+  } finally {
+    setLoading(false);
+    saveFittingMovies();
+  }
+}, [api_key, setMovies, setLoading, setError, saveFittingMovies]);
 
-  
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+  if (searchQuery.trim() !== '') {
+    try {
+      await fetchSearchResults(searchQuery);
+    } catch (error) {
+      console.error('Error during search:', error);
+    }
+  }
+  saveFittingMovies();
+};
+
   useEffect(() => {
     const savedMovies = sessionStorage.getItem('foundMovies');
     
@@ -56,20 +73,6 @@ const Movies = () => {
     setSearchQuery(e.target.value);
   };
   
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (searchQuery.trim() !== '') {
-      try {
-        sessionStorage.setItem('searchQuery', searchQuery);
-        sessionStorage.setItem('foundMovies', JSON.stringify(fittingMovies));
-        
-        await fetchSearchResults(searchQuery);
-        navigate(`/movies?query=${searchQuery}`);
-      } catch (error) {
-        console.error('Error during search:', error);
-      }
-    }
-  };
   
   return (
     <div className={styles.MoviesBox}>

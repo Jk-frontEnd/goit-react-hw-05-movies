@@ -56,7 +56,7 @@ const Cast = ({ movieId }) => {
                         ))}
                     </ul>
                 ) : (
-                        <p>No actors asigned to this movie.</p>
+                        <p>No actors assigned to this movie.</p>
                 )}
                 {cast.length > visibleActors  && (
                     <button onClick={loadMoreActors} className={styles.btn}>Load More</button>
